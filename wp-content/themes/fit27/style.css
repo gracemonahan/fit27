@@ -1,0 +1,23 @@
+/*
+ Theme Name:   Fit27
+ Theme URI:    http://example.com/fit27/
+ Description:  Twenty Twenty Child Theme
+ Author:       Grace Monahan
+ Author URI:   http://example.com
+ Template:     twentytwenty
+ Version:      1.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain:  fit27
+*/
+
+body {
+  font-family: 'times new roman', serif;
+}
+
+header#site-header.header-footer-group {
+  background-color: blue !important;
+  color: blue;
+  display: none;
+}

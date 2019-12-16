@@ -1,0 +1,22 @@
+/*
+ Theme Name:    Chaplin Child
+ Theme URI:    http://example.com/chaplinchild/
+ Description:  Chaplin Child Theme
+ Author:       Grace Monahan
+ Author URI:   http://example.com
+ Template:     chaplin
+ Version:      1.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain:  fit27
+*/
+
+div.entry-title.faux-heading.heading-size-1 {
+  color: salmon;
+}
+
+/*rule to delete the "scroll down" link */
+a.to-the-content {
+  display: none;
+}

@@ -17,6 +17,8 @@ if ( ! class_exists( 'WC_GZD_Email_Customer_Paid_For_Order' ) ) :
 	 */
 	class WC_GZD_Email_Customer_Paid_For_Order extends WC_Email {
 
+		public $helper;
+
 		/**
 		 * Constructor
 		 */
@@ -28,16 +30,15 @@ if ( ! class_exists( 'WC_GZD_Email_Customer_Paid_For_Order' ) ) :
 
 			$this->template_html  = 'emails/customer-paid-for-order.php';
 			$this->template_plain = 'emails/plain/customer-paid-for-order.php';
+			$this->helper         = wc_gzd_get_email_helper( $this );
 
 			// Triggers for this email
 			add_action( 'woocommerce_order_status_pending_to_processing_notification', array( $this, 'trigger' ), 30 );
 
-			if ( property_exists( $this, 'placeholders' ) ) {
-				$this->placeholders = array(
-					'{site_title}'   => $this->get_blogname(),
-					'{order_number}' => '',
-				);
-			}
+			$this->placeholders = array(
+				'{site_title}'   => $this->get_blogname(),
+				'{order_number}' => '',
+			);
 
 			// Call parent constuctor
 			parent::__construct();
@@ -70,21 +71,16 @@ if ( ! class_exists( 'WC_GZD_Email_Customer_Paid_For_Order' ) ) :
 		 * @return void
 		 */
 		public function trigger( $order_id ) {
-			if ( is_callable( array( $this, 'setup_locale' ) ) ) {
-				$this->setup_locale();
-			}
+			$this->helper->setup_locale();
 
 			if ( $order_id ) {
 				$this->object    = wc_get_order( $order_id );
 				$this->recipient = $this->object->get_billing_email();
 
-				if ( property_exists( $this, 'placeholders' ) ) {
-					$this->placeholders['{order_number}'] = $this->object->get_order_number();
-				} else {
-					$this->find['order-number']    = '{order_number}';
-					$this->replace['order-number'] = $this->object->get_order_number();
-				}
+				$this->placeholders['{order_number}'] = $this->object->get_order_number();
 			}
+
+			$this->helper->setup_email_locale();
 
 			if ( $this->is_enabled() && $this->get_recipient() ) {
 
@@ -94,9 +90,8 @@ if ( ! class_exists( 'WC_GZD_Email_Customer_Paid_For_Order' ) ) :
 				$this->send( $this->get_recipient(), $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );
 			}
 
-			if ( is_callable( array( $this, 'restore_locale' ) ) ) {
-				$this->restore_locale();
-			}
+			$this->helper->restore_email_locale();
+			$this->helper->restore_locale();
 		}
 
 		/**

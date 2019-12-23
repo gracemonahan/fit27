@@ -108,7 +108,7 @@ function wc_gzd_dhl_get_label_reference( $reference_type, $placeholders = array(
 
 function wc_gzd_dhl_get_label_customer_reference( $label, $shipment ) {
 	/**
-	 * Filter to adjust the customer reference field placed on the DHL label.
+	 * Filter to adjust the customer reference field placed on the DHL label. Maximum characeter length: 35.
 	 *
 	 * @param string         $text The customer reference text.
 	 * @param Label          $label The label instance.
@@ -117,12 +117,14 @@ function wc_gzd_dhl_get_label_customer_reference( $label, $shipment ) {
 	 * @since 3.0.0
 	 * @package Vendidero/Germanized/DHL
 	 */
-	return apply_filters( 'woocommerce_gzd_dhl_label_customer_reference', wc_gzd_dhl_get_label_reference( _x( 'Shipment #{shipment_id} to order {order_id}', 'dhl', 'woocommerce-germanized' ), array( '{shipment_id}' => $shipment->get_id(), '{order_id}' => $shipment->get_order_number() ) ), $label, $shipment );
+	$ref = apply_filters( 'woocommerce_gzd_dhl_label_customer_reference', wc_gzd_dhl_get_label_reference( _x( 'Shipment #{shipment_id} to order {order_id}', 'dhl', 'woocommerce-germanized' ), array( '{shipment_id}' => $shipment->get_id(), '{order_id}' => $shipment->get_order_number() ) ), $label, $shipment );
+
+	return substr( $ref, 0, 35 );
 }
 
 function wc_gzd_dhl_get_return_label_customer_reference( $label, $shipment, $parent_shipment ) {
 	/**
-	 * Filter to adjust the customer reference field placed on the DHL return label.
+	 * Filter to adjust the customer reference field placed on the DHL return label. Maximum characeter length: 30.
 	 *
 	 * @param string         $text The customer reference text.
 	 * @param Label          $label The label instance.
@@ -132,12 +134,14 @@ function wc_gzd_dhl_get_return_label_customer_reference( $label, $shipment, $par
 	 * @since 3.0.0
 	 * @package Vendidero/Germanized/DHL
 	 */
-	return apply_filters( 'woocommerce_gzd_dhl_return_label_customer_reference', wc_gzd_dhl_get_label_reference( _x( 'Return #{shipment_id} to shipment #{original_shipment_id}', 'dhl', 'woocommerce-germanized' ), array( '{shipment_id}' => $shipment->get_id(), '{original_shipment_id}' => $parent_shipment->get_id() ) ), $label, $shipment, $parent_shipment );
+	$ref = apply_filters( 'woocommerce_gzd_dhl_return_label_customer_reference', wc_gzd_dhl_get_label_reference( _x( 'Return #{shipment_id} to shipment #{original_shipment_id}', 'dhl', 'woocommerce-germanized' ), array( '{shipment_id}' => $shipment->get_id(), '{original_shipment_id}' => $parent_shipment->get_id() ) ), $label, $shipment, $parent_shipment );
+
+	return substr( $ref, 0, 30 );
 }
 
 function wc_gzd_dhl_get_inlay_return_label_reference( $label, $shipment ) {
 	/**
-	 * Filter to adjust the inlay return reference field placed on the DHL label.
+	 * Filter to adjust the inlay return reference field placed on the DHL label. Maximum characeter length: 35.
 	 *
 	 * @param string         $text The customer reference text.
 	 * @param Label          $label The label instance.
@@ -146,7 +150,9 @@ function wc_gzd_dhl_get_inlay_return_label_reference( $label, $shipment ) {
 	 * @since 3.0.0
 	 * @package Vendidero/Germanized/DHL
 	 */
-	return apply_filters( 'woocommerce_gzd_dhl_inlay_return_label_reference', wc_gzd_dhl_get_label_reference( _x( 'Return shipment #{shipment_id} to order #{order_id}', 'dhl', 'woocommerce-germanized' ), array( '{shipment_id}' => $shipment->get_id(), '{order_id}' => $shipment->get_order_number() ) ), $label, $shipment );
+	$ref = apply_filters( 'woocommerce_gzd_dhl_inlay_return_label_reference', wc_gzd_dhl_get_label_reference( _x( 'Return shipment #{shipment_id} to order #{order_id}', 'dhl', 'woocommerce-germanized' ), array( '{shipment_id}' => $shipment->get_id(), '{order_id}' => $shipment->get_order_number() ) ), $label, $shipment );
+
+	return substr( $ref, 0, 35 );
 }
 
 /**
@@ -189,7 +195,8 @@ function wc_gzd_dhl_get_services() {
         'BulkyGoods',
         'IdentCheck',
         'CashOnDelivery',
-	    'ParcelOutletRouting'
+	    'ParcelOutletRouting',
+	    'GoGreen'
     );
 }
 
@@ -270,6 +277,21 @@ function wc_gzd_dhl_get_pickup_type( $type ) {
 	}
 }
 
+/**
+ * @param WP_Error $error
+ *
+ * @return bool
+ */
+function wc_gzd_dhl_wp_error_has_errors( $error ) {
+	if ( is_callable( array( $error, 'has_errors' ) ) ) {
+		return $error->has_errors();
+	} else {
+		$errors = $error->errors;
+
+		return ( ! empty( $errors ) ? true : false );
+	}
+}
+
 function wc_gzd_dhl_validate_return_label_args( $shipment, $args = array() ) {
 
 	$args = wp_parse_args( $args, array(
@@ -284,7 +306,7 @@ function wc_gzd_dhl_validate_return_label_args( $shipment, $args = array() ) {
 		$error->add( 500, _x( 'Receiver is missing or does not exist.', 'dhl', 'woocommerce-germanized' ) );
 	}
 
-	if ( $error->has_errors() ) {
+	if ( wc_gzd_dhl_wp_error_has_errors( $error ) ) {
 		return $error;
 	}
 
@@ -303,7 +325,7 @@ function wc_gzd_dhl_validate_label_args( $shipment, $args = array() ) {
 		'ident_min_age'         => '',
 		'visual_min_age'        => '',
 		'email_notification'    => 'no',
-		'has_inlay_return'     => 'no',
+		'has_inlay_return'      => 'no',
 		'codeable_address_only' => 'no',
 		'cod_total'             => 0,
 		'duties'                => '',
@@ -448,7 +470,7 @@ function wc_gzd_dhl_validate_label_args( $shipment, $args = array() ) {
 		$error->add( 500, sprintf( _x( '%s duties element does not exist.', 'dhl', 'woocommerce-germanized' ), $args['duties'] ) );
 	}
 
-	if ( $error->has_errors() ) {
+	if ( wc_gzd_dhl_wp_error_has_errors( $error ) ) {
 		return $error;
 	}
 
@@ -577,6 +599,52 @@ function wc_gzd_dhl_get_label_shipment_address_addition( $shipment ) {
 	}
 
 	return trim( $addition );
+}
+
+/**
+ * @param Shipment $shipment
+ *
+ * @return mixed
+ */
+function wc_gzd_dhl_get_label_shipment_street_number( $shipment ) {
+	$street_number = $shipment->get_address_street_number();
+
+	if ( ! Package::is_shipping_domestic( $shipment->get_country() ) ) {
+
+		if ( empty( $street_number ) ) {
+			/**
+			 * Filter to adjust the placeholder used as street number for the DHL API in case
+			 * the shipment is not domestic (inner Germnany) and a street number was not provided.
+			 *
+			 * @param string $placeholder The placeholder to use - default 0 as advised by DHL support.
+			 *
+			 * @since 3.1.0
+			 * @package Vendidero/Germanized/DHL
+			 */
+			$street_number = apply_filters( 'woocommerce_gzd_dhl_label_shipment_street_number_placeholder', '0' );
+		}
+	}
+
+	return $street_number;
+}
+
+/**
+ * @param ReturnLabel $label
+ */
+function wc_gzd_dhl_get_return_label_sender_street_number( $label ) {
+	$street_number = $label->get_sender_street_number();
+
+	if ( ! Package::is_shipping_domestic( $label->get_sender_country() ) ) {
+
+		if ( empty( $street_number ) ) {
+			/**
+			 * This filter is documented in includes/wc-gzd-dhl-core-functions.php
+			 */
+			$street_number = apply_filters( 'woocommerce_gzd_dhl_label_shipment_street_number_placeholder', '0' );
+		}
+	}
+
+	return $street_number;
 }
 
 /**

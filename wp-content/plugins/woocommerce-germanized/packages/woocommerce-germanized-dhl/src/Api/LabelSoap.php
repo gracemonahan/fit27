@@ -93,12 +93,24 @@ class LabelSoap extends Soap {
 
         } catch ( Exception $e ) {
             Package::log( 'Response Error: ' . $e->getMessage() );
+
+            switch( $e->getMessage() ) {
+	            case "Unauthorized":
+	            	throw new Exception( _x( 'Your DHL API credentials seem to be invalid. Please check your DHL settings.', 'dhl', 'woocommerce-germanized' ) );
+                break;
+            }
+
             throw $e;
         }
 
-        if ( ! isset( $response_body->Status ) || ! isset( $response_body->CreationState ) ) {
-        	throw new Exception( _x( 'There was an error generating the label. Please check your logs.', 'dhl', 'woocommerce-germanized' ) );
-        }
+	    if ( ! isset( $response_body->Status ) || ! isset( $response_body->CreationState ) ) {
+
+		    if ( isset( $response_body->Status ) && ! empty( $response_body->Status->statusText ) ) {
+			    throw new Exception( sprintf( _x( 'There was an error contacting the DHL API: %s.', 'dhl', 'woocommerce-germanized' ), $response_body->Status->statusText ) );
+		    }
+
+		    throw new Exception( _x( 'An error ocurred while contacting the DHL API. Please consider enabling the sandbox mode.', 'dhl', 'woocommerce-germanized' ) );
+	    }
 
         return $this->update_label( $label, $response_body->Status, $response_body->CreationState );
     }
@@ -119,7 +131,7 @@ class LabelSoap extends Soap {
 
 			    throw new Exception( $messages );
 		    } else {
-			    throw new Exception( _x( 'There was an error generating the label. Please check your logs.', 'dhl', 'woocommerce-germanized' ) );
+			    throw new Exception( _x( 'There was an error generating the label. Please try again or consider switching to sandbox mode.', 'dhl', 'woocommerce-germanized' ) );
 		    }
 	    } else {
 		    // Give the server 1 second to create the PDF before downloading it
@@ -461,7 +473,7 @@ class LabelSoap extends Soap {
 	                         */
                             'name3'           => apply_filters( 'woocommerce_gzd_dhl_label_api_receiver_name3', wc_gzd_dhl_get_label_shipment_address_addition( $shipment ), $label ),
                             'streetName'      => $shipment->get_address_street(),
-                            'streetNumber'    => $shipment->get_address_street_number(),
+                            'streetNumber'    => wc_gzd_dhl_get_label_shipment_street_number( $shipment ),
                             'zip'             => $shipment->get_postcode(),
                             'city'            => $shipment->get_city(),
                             'Origin'          => array(

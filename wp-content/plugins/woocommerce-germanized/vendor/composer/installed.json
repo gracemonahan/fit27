@@ -163,20 +163,20 @@
     },
     {
         "name": "setasign/fpdf",
-        "version": "1.8.1",
-        "version_normalized": "1.8.1.0",
+        "version": "1.8.2",
+        "version_normalized": "1.8.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Setasign/FPDF.git",
-            "reference": "2c68c9e6c034ac3187d25968790139a73184cdb1"
+            "reference": "d77904018090c17dc9f3ab6e944679a7a47e710a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Setasign/FPDF/zipball/2c68c9e6c034ac3187d25968790139a73184cdb1",
-            "reference": "2c68c9e6c034ac3187d25968790139a73184cdb1",
+            "url": "https://api.github.com/repos/Setasign/FPDF/zipball/d77904018090c17dc9f3ab6e944679a7a47e710a",
+            "reference": "d77904018090c17dc9f3ab6e944679a7a47e710a",
             "shasum": ""
         },
-        "time": "2016-01-01T17:47:15+00:00",
+        "time": "2019-12-08T10:32:10+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -186,7 +186,7 @@
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "no usage restriction"
+            "MIT"
         ],
         "authors": [
             {
@@ -308,17 +308,17 @@
     },
     {
         "name": "vendidero/woocommerce-germanized-dhl",
-        "version": "v1.1.1",
-        "version_normalized": "1.1.1.0",
+        "version": "v1.1.2",
+        "version_normalized": "1.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/vendidero/woocommerce-germanized-dhl.git",
-            "reference": "441415d1f04f54c3bfacb31663ce8dbd030430e6"
+            "reference": "cab67cac1c36b12aaa36ab52079a8b733543eb5e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-dhl/zipball/441415d1f04f54c3bfacb31663ce8dbd030430e6",
-            "reference": "441415d1f04f54c3bfacb31663ce8dbd030430e6",
+            "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-dhl/zipball/cab67cac1c36b12aaa36ab52079a8b733543eb5e",
+            "reference": "cab67cac1c36b12aaa36ab52079a8b733543eb5e",
             "shasum": ""
         },
         "require": {
@@ -328,7 +328,7 @@
             "phpunit/phpunit": "6.5.14",
             "woocommerce/woocommerce-sniffs": "0.0.6"
         },
-        "time": "2019-12-03T14:31:27+00:00",
+        "time": "2019-12-13T13:35:33+00:00",
         "type": "wordpress-plugin",
         "installation-source": "dist",
         "autoload": {
@@ -352,23 +352,23 @@
         "description": "The Germanized DHL implementation.",
         "homepage": "https://github.com/vendidero/woocommerce-germanized-dhl",
         "support": {
-            "source": "https://github.com/vendidero/woocommerce-germanized-dhl/tree/v1.1.1",
+            "source": "https://github.com/vendidero/woocommerce-germanized-dhl/tree/v1.1.2",
             "issues": "https://github.com/vendidero/woocommerce-germanized-dhl/issues"
         }
     },
     {
         "name": "vendidero/woocommerce-germanized-shipments",
-        "version": "v1.1.1",
-        "version_normalized": "1.1.1.0",
+        "version": "v1.1.2",
+        "version_normalized": "1.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/vendidero/woocommerce-germanized-shipments.git",
-            "reference": "831e317db5cf5c90540b1700aa989b555c617fd0"
+            "reference": "cee56d5221116e7e956fcac2e5b27a01edef206d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-shipments/zipball/831e317db5cf5c90540b1700aa989b555c617fd0",
-            "reference": "831e317db5cf5c90540b1700aa989b555c617fd0",
+            "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-shipments/zipball/cee56d5221116e7e956fcac2e5b27a01edef206d",
+            "reference": "cee56d5221116e7e956fcac2e5b27a01edef206d",
             "shasum": ""
         },
         "require": {
@@ -379,7 +379,7 @@
             "phpunit/phpunit": "6.5.14",
             "woocommerce/woocommerce-sniffs": "0.0.6"
         },
-        "time": "2019-12-03T14:30:20+00:00",
+        "time": "2019-12-13T12:44:23+00:00",
         "type": "wordpress-plugin",
         "installation-source": "dist",
         "autoload": {
@@ -401,23 +401,23 @@
         "description": "The Germanized Shipments implementation.",
         "homepage": "https://github.com/vendidero/woocommerce-germanized-shipments",
         "support": {
-            "source": "https://github.com/vendidero/woocommerce-germanized-shipments/tree/v1.1.1",
+            "source": "https://github.com/vendidero/woocommerce-germanized-shipments/tree/v1.1.2",
             "issues": "https://github.com/vendidero/woocommerce-germanized-shipments/issues"
         }
     },
     {
         "name": "vendidero/woocommerce-trusted-shops",
-        "version": "v4.0.2",
-        "version_normalized": "4.0.2.0",
+        "version": "v4.0.3",
+        "version_normalized": "4.0.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/vendidero/woocommerce-trusted-shops.git",
-            "reference": "a5250207d2e8c4204fc7d982a72b63c51c70d134"
+            "reference": "5f74fc2c090f84f5e4abd34e2218e7e04621f5f2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/vendidero/woocommerce-trusted-shops/zipball/a5250207d2e8c4204fc7d982a72b63c51c70d134",
-            "reference": "a5250207d2e8c4204fc7d982a72b63c51c70d134",
+            "url": "https://api.github.com/repos/vendidero/woocommerce-trusted-shops/zipball/5f74fc2c090f84f5e4abd34e2218e7e04621f5f2",
+            "reference": "5f74fc2c090f84f5e4abd34e2218e7e04621f5f2",
             "shasum": ""
         },
         "require": {
@@ -427,7 +427,7 @@
             "phpunit/phpunit": "6.5.14",
             "woocommerce/woocommerce-sniffs": "0.0.6"
         },
-        "time": "2019-11-06T16:05:07+00:00",
+        "time": "2019-12-13T12:49:03+00:00",
         "type": "wordpress-plugin",
         "installation-source": "dist",
         "autoload": {
@@ -449,7 +449,7 @@
         "description": "Trustbadge Reviews for WooCommerce.",
         "homepage": "https://github.com/vendidero/woocommerce-trusted-shops",
         "support": {
-            "source": "https://github.com/vendidero/woocommerce-trusted-shops/tree/v4.0.2",
+            "source": "https://github.com/vendidero/woocommerce-trusted-shops/tree/v4.0.3",
             "issues": "https://github.com/vendidero/woocommerce-trusted-shops/issues"
         }
     }

@@ -3,15 +3,15 @@
  * Plugin Name: Germanized for WooCommerce
  * Plugin URI: https://www.vendidero.de/woocommerce-germanized
  * Description: Germanized for WooCommerce extends WooCommerce to become a legally compliant store in the german market.
- * Version: 3.0.7
+ * Version: 3.0.8
  * Author: Vendidero
  * Author URI: https://vendidero.de
  * Requires at least: 4.9
  * Tested up to: 5.3
  * WC requires at least: 3.4
- * WC tested up to: 3.8
+ * WC tested up to: 3.9
  * Requires at least WooCommerce: 3.4
- * Tested up to WooCommerce: 3.8
+ * Tested up to WooCommerce: 3.9
  *
  * Text Domain: woocommerce-germanized
  * Domain Path: /i18n/languages/
@@ -63,7 +63,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		 *
 		 * @var string
 		 */
-		public $version = '3.0.7';
+		public $version = '3.0.8';
 
 		/**
 		 * @var WooCommerce_Germanized $instance of the plugin
@@ -251,7 +251,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 			add_action( 'wp_print_scripts', array( $this, 'localize_scripts' ), 5 );
 			add_action( 'wp_print_footer_scripts', array( $this, 'localize_scripts' ), 5 );
 
-			add_filter( 'woocommerce_email_classes', array( $this, 'add_emails' ), 10 );
+			add_filter( 'woocommerce_email_classes', array( $this, 'add_emails' ), 1 );
 			add_filter( 'woocommerce_locate_core_template', array( $this, 'email_templates' ), 0, 3 );
 			add_action( 'woocommerce_email_order_meta', array( $this, 'email_small_business_notice' ), 1 );
 
@@ -467,6 +467,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 			include_once WC_GERMANIZED_ABSPATH . 'includes/wc-gzd-cart-functions.php';
 			include_once WC_GERMANIZED_ABSPATH . 'includes/wc-gzd-order-functions.php';
 
+			include_once WC_GERMANIZED_ABSPATH . 'includes/emails/class-wc-gzd-email-helper.php';
 			include_once WC_GERMANIZED_ABSPATH . 'includes/class-wc-gzd-ajax.php';
 			include_once WC_GERMANIZED_ABSPATH . 'includes/class-wc-gzd-checkout.php';
 			include_once WC_GERMANIZED_ABSPATH . 'includes/class-wc-gzd-customer-helper.php';
@@ -524,6 +525,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 					'woocommerce-product-bundles'                 => 'WC_GZD_Compatibility_WooCommerce_Product_Bundles',
 					'woocommerce-role-based-prices'               => 'WC_GZD_Compatibility_WooCommerce_Role_Based_Prices',
 					'woocommerce-role-based-price'                => 'WC_GZD_Compatibility_WooCommerce_Role_Based_Price',
+					'woo-discount-rules'                          => 'WC_GZD_Compatibility_Woo_Discount_Rules',
 					'woocommerce-gateway-paypal-express-checkout' => 'WC_GZD_Compatibility_WooCommerce_Gateway_Paypal_Express_Checkout',
 					'woocommerce-subscriptions'                   => 'WC_GZD_Compatibility_WooCommerce_Subscriptions',
 					'woo-paypalplus'                              => 'WC_GZD_Compatibility_Woo_PaypalPlus',
@@ -888,7 +890,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 				wp_localize_script( 'wc-gzd-revocation', 'wc_gzd_revocation_params', apply_filters( 'wc_gzd_revocation_params', array(
 					'ajax_url'        => WC()->ajax_url(),
 					'wc_ajax_url'     => WC_AJAX::get_endpoint( "%%endpoint%%" ),
-					'ajax_loader_url' => apply_filters( 'woocommerce_ajax_loader_url', $assets_path . 'images/ajax-loader@2x.gif' ),
+					'ajax_loader_url' => apply_filters( 'woocommerce_ajax_loader_url', $assets_path . 'images/wpspin-2x.gif' ),
 				) ) );
 			}
 
@@ -1020,6 +1022,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		 * @return array
 		 */
 		public function add_emails( $mails ) {
+
 			$mails['WC_GZD_Email_Customer_Paid_For_Order']         = include 'includes/emails/class-wc-gzd-email-customer-paid-for-order.php';
 			$mails['WC_GZD_Email_Customer_New_Account_Activation'] = include 'includes/emails/class-wc-gzd-email-customer-new-account-activation.php';
 			$mails['WC_GZD_Email_Customer_Revocation']             = include 'includes/emails/class-wc-gzd-email-customer-revocation.php';

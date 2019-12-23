@@ -33,7 +33,8 @@ if ( ! class_exists( 'WC_GZD_Install' ) ) :
 			'2.3.0' => 'updates/woocommerce-gzd-update-2.3.0.php',
 			'3.0.0' => 'updates/woocommerce-gzd-update-3.0.0.php',
 			'3.0.1' => 'updates/woocommerce-gzd-update-3.0.1.php',
-			'3.0.6' => 'updates/woocommerce-gzd-update-3.0.6.php'
+			'3.0.6' => 'updates/woocommerce-gzd-update-3.0.6.php',
+			'3.0.8' => 'updates/woocommerce-gzd-update-3.0.8.php'
 		);
 
 		/**
@@ -123,6 +124,17 @@ if ( ! class_exists( 'WC_GZD_Install' ) ) :
 			}
 		}
 
+		protected static function create_tax_class( $tax_class ) {
+			if ( is_callable( array( 'WC_Tax', 'create_tax_class' ) ) ) {
+				WC_Tax::create_tax_class( self::get_tax_class_name( $tax_class ), $tax_class );
+			} else {
+				$tax_classes = array_filter( array_map( 'trim', explode( "\n", get_option( 'woocommerce_tax_classes' ) ) ) );
+				$tax_classes = array_merge( $tax_classes, array( $tax_class ) );
+
+				update_option( 'woocommerce_tax_classes', implode( "\n", $tax_classes ) );
+			}
+		}
+
 		/**
 		 * Install WC_Germanized
 		 */
@@ -173,7 +185,7 @@ if ( ! class_exists( 'WC_GZD_Install' ) ) :
 				}
 
 				foreach ( $new_tax_classes as $new_tax_class ) {
-					WC_Tax::create_tax_class( self::get_tax_class_name( $new_tax_class ), $new_tax_class );
+					self::create_tax_class( $new_tax_class );
 				}
 			}
 

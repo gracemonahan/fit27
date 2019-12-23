@@ -72,27 +72,13 @@ class ParcelServices {
 		return $total_rows;
 	}
 
-	public static function test() {
-		/*$order = new Order( wc_get_order( 23804 ) );
-
-		$order->set_preferred_day( '2019-10-10' );
-		$order->set_preferred_time_start( '10:00' );
-		$order->set_preferred_time_end( '12:00' );
-
-		var_dump($order->get_preferred_day());
-		var_dump($order->get_preferred_time_start());
-		var_dump($order->get_preferred_time_end());
-		exit();
-		*/
-	}
-
 	public static function create_order( $order ) {
 		$posted_data = $_POST;
 
 		if ( self::is_preferred_available() ) {
 			$data = self::get_data( $posted_data );
 
-			if ( ! $data['errors']->has_errors() ) {
+			if ( ! wc_gzd_dhl_wp_error_has_errors( $data['errors'] ) ) {
 				$dhl_order = new Order( $order );
 
 				if ( ! empty( $data['preferred_day'] ) ) {
@@ -120,7 +106,7 @@ class ParcelServices {
 		if ( self::is_preferred_available() ) {
 			$data = self::get_data( $posted_data );
 
-			if ( $data['errors']->has_errors() ) {
+			if ( wc_gzd_dhl_wp_error_has_errors( $data['errors'] ) ) {
 				foreach( $data['errors']->get_error_messages() as $message ) {
 					$errors->add( 'validation', $message );
 				}

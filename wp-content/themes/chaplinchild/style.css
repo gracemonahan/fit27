@@ -12,6 +12,12 @@
  Text Domain:  fit27
 */
 
+/* style the font awesome icons */
+i {
+  align-items: center;
+}
+
+/* style the h1 */
 div.entry-title.faux-heading.heading-size-1 {
   color: salmon;
 }
@@ -19,4 +25,23 @@ div.entry-title.faux-heading.heading-size-1 {
 /*rule to delete the "scroll down" link */
 a.to-the-content {
   display: none;
+}
+
+/* change the background of a div to yellow */
+.yellow {
+  background-color: yellow;
+}
+
+/* style rules for the gifs */
+.memberperks {
+  border: 3px brown solid;
+  background-color: blue;
+}
+
+p.entry-content {
+  color: blue;
+}
+
+body {
+  color: blue;
 }
